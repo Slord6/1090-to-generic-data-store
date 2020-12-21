@@ -3,6 +3,10 @@
 const http = require('http');
 const { setInterval } = require('timers');
 
+const dump1090Endpoint = "http://zerohero.broadband:8080/dump1090/data.json";
+const genericDataStoreUrl = "http://localhost/planeData?key=6782109gguh89awyda9k9a";
+const pollRateMs = 10000;
+
 const getBody = (res, cb) => {
     let body = '';
     res.on('data', chunk => {
@@ -12,7 +16,7 @@ const getBody = (res, cb) => {
 }
 
 const getData = () => {
-    http.get(new URL("http://zerohero.broadband:8080/dump1090/data.json"), (res) => {
+    http.get(new URL(dump1090Endpoint), (res) => {
         getBody(res, (body) => {
             const dataArr = JSON.parse(body);
             console.log(`${dataArr.length} current`);
@@ -20,7 +24,7 @@ const getData = () => {
                 console.log('Sending ' + planeInfo.hex);
                 planeInfo.timestamp = Date.now();
                 try {
-                    http.request("http://localhost/planeData?key=6782109gguh89awyda9k9a", {
+                    http.request(genericDataStoreUrl, {
                         method: "POST"
                     }, (res) => {
                         getBody(res, (resBody) => {
@@ -36,4 +40,4 @@ const getData = () => {
 }
 
 getData();
-setInterval(getData, 10000);
+setInterval(getData, pollRateMs);
