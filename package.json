@@ -1,0 +1,11 @@
+{
+  "name": "1090-to-generic-data-store",
+  "version": "1.0.0",
+  "description": "Poll dump1090 endpoint and store in generic-data-store",
+  "main": "logPlaneData.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Lord",
+  "license": "MIT"
+}
